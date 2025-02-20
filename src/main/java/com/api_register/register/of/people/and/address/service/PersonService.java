@@ -5,6 +5,7 @@ import com.api_register.register.of.people.and.address.entity.Person;
 import com.api_register.register.of.people.and.address.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -25,6 +26,10 @@ public class PersonService {
         var response = personRepository.save(saveEnity);
 
         return response.getId();
+    }
+
+    public List<Person> getAll(){
+        return personRepository.findAll();
     }
 
 }
