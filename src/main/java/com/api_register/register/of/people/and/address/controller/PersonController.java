@@ -1,10 +1,9 @@
 package com.api_register.register.of.people.and.address.controller;
 
 
-import com.api_register.register.of.people.and.address.dto.PersonSaveDto;
+import com.api_register.register.of.people.and.address.dto.PersonDto;
 import com.api_register.register.of.people.and.address.entity.Person;
 import com.api_register.register.of.people.and.address.service.PersonService;
-import org.springframework.data.repository.Repository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +24,9 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> save(@RequestBody PersonSaveDto personSaveDto) {
+    public ResponseEntity<Person> save(@RequestBody PersonDto personDto) {
 
-        var response = personService.Save(personSaveDto);
+        var response = personService.Save(personDto);
 
         return ResponseEntity.created(URI.create("./person/" + response.toString())).build();
 
@@ -60,6 +59,14 @@ public class PersonController {
         }
 
         return ResponseEntity.ok(personOptional.get());
+    }
+
+    @PutMapping("/{personId}")
+    public ResponseEntity<Person> update(@PathVariable("personId") String personId, @RequestBody PersonDto personDto) {
+
+        var responseUpdate = personService.updatePerson(personId, personDto);
+
+        return ResponseEntity.ok(responseUpdate);
     }
 
 }

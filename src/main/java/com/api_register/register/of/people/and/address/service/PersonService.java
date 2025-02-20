@@ -1,6 +1,6 @@
 package com.api_register.register.of.people.and.address.service;
 
-import com.api_register.register.of.people.and.address.dto.PersonSaveDto;
+import com.api_register.register.of.people.and.address.dto.PersonDto;
 import com.api_register.register.of.people.and.address.entity.Person;
 import com.api_register.register.of.people.and.address.exception.PersonNotFoundException;
 import com.api_register.register.of.people.and.address.repository.PersonRepository;
@@ -21,9 +21,9 @@ public class PersonService {
     }
 
 
-    public UUID Save(PersonSaveDto personSaveDto) {
+    public UUID Save(PersonDto personDto) {
 
-        var saveEnity = new Person(null, personSaveDto.name(), personSaveDto.birthdate(), null);
+        var saveEnity = new Person(null, personDto.name(), personDto.birthdate(), null);
 
         var response = personRepository.save(saveEnity);
 
@@ -53,5 +53,29 @@ public class PersonService {
 
         return personRepository.findById(id);
     }
+
+    public Person updatePerson(String personId, PersonDto personDto) {
+
+        var id = UUID.fromString(personId);
+
+        var personEntity = personRepository.findById(id);
+
+        if (personEntity.isEmpty()) {
+            throw new PersonNotFoundException("Pessoa com ID " + id + " não encontrada.");
+        }
+
+        var person = personEntity.get();
+
+        if (personDto.name() != null) {
+            person.setName(personDto.name());
+        }
+        if (personDto.birthdate() != null) {
+            person.setBirthdate(personDto.birthdate());
+        }
+
+        return personRepository.save(person);
+
+    }
+
 
 }
