@@ -5,6 +5,7 @@ import com.api_register.register.of.people.and.address.dto.PersonSaveDto;
 import com.api_register.register.of.people.and.address.entity.Person;
 import com.api_register.register.of.people.and.address.service.PersonService;
 import org.springframework.data.repository.Repository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,19 @@ public class PersonController {
         personService.delete(personId);
 
         return ResponseEntity.noContent().build();
+    }
+
+
+    @GetMapping("/{personId}")
+    public ResponseEntity<Person> getById(@PathVariable("personId") String personId) {
+
+        var personOptional = personService.getById(personId);
+
+        if (personOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        return ResponseEntity.ok(personOptional.get());
     }
 
 }

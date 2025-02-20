@@ -7,6 +7,7 @@ import com.api_register.register.of.people.and.address.repository.PersonReposito
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,7 +21,7 @@ public class PersonService {
     }
 
 
-    public UUID Save(PersonSaveDto personSaveDto){
+    public UUID Save(PersonSaveDto personSaveDto) {
 
         var saveEnity = new Person(null, personSaveDto.name(), personSaveDto.birthdate(), null);
 
@@ -29,12 +30,12 @@ public class PersonService {
         return response.getId();
     }
 
-    public List<Person> getAll(){
+    public List<Person> getAll() {
 
         return personRepository.findAll();
     }
 
-    public void delete(String personId){
+    public void delete(String personId) {
 
         var id = UUID.fromString(personId);
 
@@ -44,6 +45,13 @@ public class PersonService {
 
         personRepository.deleteById(id);
 
+    }
+
+    public Optional<Person> getById(String personId) {
+
+        var id = UUID.fromString(personId);
+
+        return personRepository.findById(id);
     }
 
 }
