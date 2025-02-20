@@ -3,6 +3,7 @@ package com.api_register.register.of.people.and.address.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -19,6 +20,18 @@ public class Address {
     private String street;
     private String zipCode;
     private String number;
+
+    public Address(UUID id, String city, String street, String zipCode, String number) {
+        this.id = id;
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.number = number;
+    }
+
+    @OneToMany(mappedBy = "address")
+    private List<Person> person;
+
 
     public Address() {
     }

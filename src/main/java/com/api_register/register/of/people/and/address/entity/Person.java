@@ -3,6 +3,7 @@ package com.api_register.register.of.people.and.address.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,16 +17,21 @@ public class Person {
 
 
     private String name;
-    private String birthDate;
+    private String birthdate;
 
+
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public Person() {
     }
 
-    public Person(UUID id, String name, String birthDate) {
+    public Person(UUID id, String name, String birthdate, Address address) {
         this.id = id;
         this.name = name;
-        this.birthDate = birthDate;
+        this.birthdate = birthdate;
+        this.address = address;
     }
 
     public UUID getId() {
@@ -44,11 +50,19 @@ public class Person {
         this.name = name;
     }
 
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
