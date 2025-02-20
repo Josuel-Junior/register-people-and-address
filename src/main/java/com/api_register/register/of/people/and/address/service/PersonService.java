@@ -2,6 +2,7 @@ package com.api_register.register.of.people.and.address.service;
 
 import com.api_register.register.of.people.and.address.dto.PersonSaveDto;
 import com.api_register.register.of.people.and.address.entity.Person;
+import com.api_register.register.of.people.and.address.exception.PersonNotFoundException;
 import com.api_register.register.of.people.and.address.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,20 @@ public class PersonService {
     }
 
     public List<Person> getAll(){
+
         return personRepository.findAll();
+    }
+
+    public void delete(String personId){
+
+        var id = UUID.fromString(personId);
+
+        if (!personRepository.existsById(id)) {
+            throw new PersonNotFoundException("Pessoa com ID " + id + " não encontrada.");
+        }
+
+        personRepository.deleteById(id);
+
     }
 
 }
