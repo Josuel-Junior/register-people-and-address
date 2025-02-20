@@ -21,7 +21,7 @@ public class Person {
 
 
     @ManyToOne
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", nullable = true)
     private Address address;
 
     public Person() {
