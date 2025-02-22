@@ -26,7 +26,7 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<Person> save(@RequestBody PersonDto personDto) {
 
-        var response = personService.Save(personDto);
+        var response = personService.createdPerson(personDto);
 
         return ResponseEntity.created(URI.create("./person/" + response.toString())).build();
 
