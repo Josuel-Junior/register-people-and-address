@@ -188,4 +188,66 @@ class PersonServiceTest {
             verify(personRepository, times(0)).deleteById(any());
         }
     }
+
+    @Nested
+    class updatePersonById {
+        @Test
+        @DisplayName("Should update person by id when name and birthdate is filled")
+        void shouldUpdatePersonByIdWhenNameAndBirthdateIsFilled() {
+
+            var updatePerson = new PersonDto("name person", "birthdate date");
+
+            var person = new Person(
+                    UUID.randomUUID(),
+                    "name person",
+                    "birthdate date",
+                    null
+            );
+
+            doReturn(Optional.of(person)).when(personRepository).findById(uuidArgumentCaptor.capture());
+
+
+            doReturn(person).when(personRepository).save(personArgumentCaptor.capture());
+
+
+            personService.updatePerson(person.getId().toString(), updatePerson);
+
+
+            assertEquals(person.getId(), uuidArgumentCaptor.getValue());
+
+            var userCaptured = personArgumentCaptor.getValue();
+
+            assertEquals(updatePerson.name(), userCaptured.getName());
+            assertEquals(updatePerson.birthdate(), userCaptured.getBirthdate());
+
+            verify(personRepository, times(1)).findById(uuidArgumentCaptor.getValue());
+            verify(personRepository, times(1)).save(person);
+
+
+        }
+
+        @Test
+        @DisplayName("Should not update person when name not exists and verify exception")
+        void shouldNotUpdatePersonWhenNameNotExists() {
+
+
+            var updateDto = new PersonDto("name person", "birthdate person");
+
+
+            doReturn(Optional.empty()).when(personRepository).findById(uuidArgumentCaptor.capture());
+
+            var userId = UUID.randomUUID();
+
+            PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> {
+                personService.updatePerson(userId.toString(), updateDto);
+            });
+
+            assertTrue(exception.getMessage().contains(userId.toString()));
+
+            assertEquals(userId, uuidArgumentCaptor.getValue());
+
+            verify(personRepository, times(1)).findById(uuidArgumentCaptor.getValue());
+            verify(personRepository, times(0)).save(any());
+        }
+    }
 }
