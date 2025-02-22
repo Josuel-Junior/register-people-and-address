@@ -67,7 +67,7 @@ class PersonServiceTest {
         }
 
         @Test
-        @DisplayName("should display an exception")
+        @DisplayName("Should display an exception")
         void shouldThrowExceptionError() {
 
             doThrow(new RuntimeException()).when(personRepository).save(any());
@@ -82,7 +82,7 @@ class PersonServiceTest {
     @Nested
     class getPersonById {
         @Test
-        @DisplayName("Sould get person by id with success when optional is present")
+        @DisplayName("Should get person by id with success when optional is present")
         void shouldGetPersonByIdWithSuccessWhenOptionalIsPresent() {
 
             var person = new Person(
@@ -102,7 +102,7 @@ class PersonServiceTest {
         }
 
         @Test
-        @DisplayName("Sould get person by id with success when optional is empty")
+        @DisplayName("Should get person by id with success when optional is empty")
         void shouldGetPersonByIdWithSuccessWhenOptionalIsEmpty() {
 
             var uuid = UUID.randomUUID();
