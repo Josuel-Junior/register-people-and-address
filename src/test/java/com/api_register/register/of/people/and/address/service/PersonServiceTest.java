@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -114,6 +115,30 @@ class PersonServiceTest {
 
             assertEquals(uuid, uuidArgumentCaptor.getValue());
 
+
+        }
+    }
+
+    @Nested
+    class getListPerson {
+        @Test
+        @DisplayName("Should get listPerson")
+        void shouldGetListPerson() {
+
+            var person = new Person(
+                    UUID.randomUUID(),
+                    "name person",
+                    "birthdate date",
+                    null
+            );
+
+            var personList = List.of(person);
+
+            doReturn(personList).when(personRepository).findAll();
+
+            var outPut = personService.getAll();
+
+            assertEquals(personList.size(), outPut.size());
 
         }
     }
