@@ -20,7 +20,7 @@ public class AddressController {
     @PostMapping("{personId}")
     public ResponseEntity<PersonAddressDto> save(@PathVariable("personId") String personId, @RequestBody AddressDto addressDto) {
 
-        var response = addressService.save(personId, addressDto);
+        var response = addressService.associateAddress(personId, addressDto);
 
         return ResponseEntity.ok(response);
     }

@@ -24,7 +24,7 @@ public class AddressService {
         this.personRepository = personRepository;
     }
 
-    public PersonAddressDto save(String personId, AddressDto addressDto) {
+    public PersonAddressDto associateAddress(String personId, AddressDto addressDto) {
 
         var id = UUID.fromString(personId);
 
