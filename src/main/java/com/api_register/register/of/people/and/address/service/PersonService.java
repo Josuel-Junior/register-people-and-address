@@ -31,12 +31,12 @@ public class PersonService {
     }
 
     public List<Person> getAll() {
-        
+
 
         return personRepository.findAll();
     }
 
-    public void delete(String personId) {
+    public void deleteById(String personId) {
 
         var id = UUID.fromString(personId);
 

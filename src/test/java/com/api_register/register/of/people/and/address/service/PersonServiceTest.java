@@ -2,6 +2,7 @@ package com.api_register.register.of.people.and.address.service;
 
 import com.api_register.register.of.people.and.address.dto.PersonDto;
 import com.api_register.register.of.people.and.address.entity.Person;
+import com.api_register.register.of.people.and.address.exception.PersonNotFoundException;
 import com.api_register.register.of.people.and.address.repository.PersonRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -19,8 +20,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersonServiceTest {
@@ -140,6 +140,52 @@ class PersonServiceTest {
 
             assertEquals(personList.size(), outPut.size());
 
+        }
+    }
+
+    @Nested
+    class deleteById {
+
+        @Test
+        @DisplayName("Should delete person with success when person exists")
+        void shouldDeleteByIdWithSuccessWhenPersonExists() {
+
+            doReturn(true).when(personRepository).existsById(uuidArgumentCaptor.capture());
+
+            doNothing().when(personRepository).deleteById(uuidArgumentCaptor.capture());
+
+            var personId = UUID.randomUUID();
+
+            personService.deleteById(personId.toString());
+
+            var idList = uuidArgumentCaptor.getAllValues();
+            assertEquals(personId, idList.get(0));
+            assertEquals(personId, idList.get(1));
+
+            verify(personRepository, times(1)).existsById(idList.get(0));
+
+            verify(personRepository, times(1)).deleteById(idList.get(1));
+        }
+
+        @Test
+        @DisplayName("Should not delete person when person not exists and verify exception")
+        void shouldNotDeletePersonWhenNotExists() {
+
+            doReturn(false).when(personRepository).existsById(uuidArgumentCaptor.capture());
+
+            var personId = UUID.randomUUID();
+
+            PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> {
+                personService.deleteById(personId.toString());
+            });
+
+            assertTrue(exception.getMessage().contains(personId.toString()));
+
+            assertEquals(personId, uuidArgumentCaptor.getValue());
+
+            verify(personRepository, times(1)).existsById(uuidArgumentCaptor.getValue());
+
+            verify(personRepository, times(0)).deleteById(any());
         }
     }
 }

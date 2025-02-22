@@ -43,7 +43,7 @@ public class PersonController {
     @DeleteMapping("/{personId}")
     public ResponseEntity<UUID> delete(@PathVariable("personId") String personId) {
 
-        personService.delete(personId);
+        personService.deleteById(personId);
 
         return ResponseEntity.noContent().build();
     }
