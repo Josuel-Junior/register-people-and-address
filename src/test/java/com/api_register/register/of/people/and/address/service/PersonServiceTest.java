@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,8 +34,12 @@ class PersonServiceTest {
     private ArgumentCaptor<Person> personArgumentCaptor;
 
 
+    @Captor
+    private ArgumentCaptor<UUID> uuidArgumentCaptor;
+
+
     @Nested
-    class save {
+    class createdPerson {
         @Test
         @DisplayName("Should saved a person with success")
         void shouldSavePerson() {
@@ -69,6 +74,47 @@ class PersonServiceTest {
             var input = new PersonDto("name person", "birthdate date");
 
             assertThrows(RuntimeException.class, () -> personService.createdPerson(input));
+
+
+        }
+    }
+
+    @Nested
+    class getPersonById {
+        @Test
+        @DisplayName("Sould get person by id with success when optional is present")
+        void shouldGetPersonByIdWithSuccessWhenOptionalIsPresent() {
+
+            var person = new Person(
+                    UUID.randomUUID(),
+                    "name person",
+                    "birthdate date",
+                    null
+            );
+            doReturn(Optional.of(person)).when(personRepository).findById(uuidArgumentCaptor.capture());
+
+
+            var output = personService.getById(person.getId().toString());
+
+            assertTrue(output.isPresent());
+
+            assertEquals(person.getId(), uuidArgumentCaptor.getValue());
+        }
+
+        @Test
+        @DisplayName("Sould get person by id with success when optional is empty")
+        void shouldGetPersonByIdWithSuccessWhenOptionalIsEmpty() {
+
+            var uuid = UUID.randomUUID();
+            doReturn(Optional.empty()).when(personRepository).findById(uuidArgumentCaptor.capture());
+
+            var output = personService.getById(uuid.toString());
+
+            assertTrue(output.isEmpty());
+
+            assertEquals(uuid, uuidArgumentCaptor.getValue());
+
+
         }
     }
 }
