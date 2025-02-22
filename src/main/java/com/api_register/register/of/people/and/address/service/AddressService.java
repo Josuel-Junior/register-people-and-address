@@ -18,7 +18,6 @@ public class AddressService {
 
     final PersonRepository personRepository;
 
-
     public AddressService(AddressRepository addressRepository, PersonRepository personRepository) {
         this.addressRepository = addressRepository;
         this.personRepository = personRepository;
@@ -38,7 +37,6 @@ public class AddressService {
         var person = personOptional.get();
 
         var addressOptional = addressRepository.findByCityAndStreetAndZipCodeAndNumber(addressDto.city(), addressDto.street(), addressDto.zipCode(), addressDto.number());
-
 
         Address address;
 

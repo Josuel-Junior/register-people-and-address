@@ -4,6 +4,7 @@ import com.api_register.register.of.people.and.address.dto.AddressDto;
 import com.api_register.register.of.people.and.address.dto.PersonAddressDto;
 import com.api_register.register.of.people.and.address.entity.Address;
 import com.api_register.register.of.people.and.address.entity.Person;
+import com.api_register.register.of.people.and.address.exception.PersonNotFoundException;
 import com.api_register.register.of.people.and.address.repository.AddressRepository;
 import com.api_register.register.of.people.and.address.repository.PersonRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -90,6 +91,24 @@ class AddressServiceTest {
 
             verify(personRepository).save(any(Person.class));
         }
-    }
 
+        @Test
+        @DisplayName("should not associate address if person does not exist and verify exception")
+        void shouldNotAssociateAddressIfPersonDoesNotExist() {
+
+            UUID personId = UUID.randomUUID();
+            String personIdStr = personId.toString();
+            AddressDto addressDto = new AddressDto("city", "street", "zipCode", "number");
+
+            when(personRepository.findById(personId))
+                    .thenReturn(Optional.empty());
+
+            PersonNotFoundException exception = assertThrows(PersonNotFoundException.class, () -> {
+                addressService.associateAddress(personIdStr, addressDto);
+            });
+
+            assertEquals("Pessoa com ID " + personId + " não encontrada.", exception.getMessage());
+        }
+    }
 }
+
