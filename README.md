@@ -21,6 +21,7 @@ Adotar os princípios do Clean Code para desenvolver um código limpo, escaláve
 
 O relacionamento entre Person (Pessoa) e Address (Endereço) deve ser de ManyToOne (Muitos para Um), onde muitas pessoas podem estar associadas a um único endereço, mas um endereço pertence apenas a uma pessoa.
 
+![Logo](https://www.datocms-assets.com/115877/1740257823-diagrama-sem-nome.jpg)
 
 # Sobre o Desenvolvimento do projeto
 
