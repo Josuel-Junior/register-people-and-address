@@ -106,3 +106,32 @@ Teste na class PersonService
 
 
 Além da documentação escrita, utilizei o Swagger para documentar toda a API, facilitando a realização de testes práticos ao acessar a rota "http://localhost:8080/swagger-ui/index.html".
+
+## Rodar projeto
+
+### Requisitos
+
+Antes de começar, certifique-se de ter os seguintes requisitos instalados em sua máquina:
+
+- **Java Development Kit (JDK) 21**: Necessário para compilar e executar o projeto.
+- **Docker**: Utilizado para rodar o banco de dados em um contêiner.
+- **Maven**: Ferramenta de build e gerenciamento de dependências do projeto.
+- **Git**: Para clonar o repositório do projeto.
+
+## Como rodar o projeto
+
+### 1. Clonar o repositório
+
+git clone https://github.com/Josuel-Junior/register-people-and-address.git
+
+### 2. Inicie o banco de dados a partir da pasta raiz do projeto com o comando:
+- docker compose up
+
+### 3. Iniciar projeto com o comando:
+- mvn spring-boot:run
+
+## Rodar testes
+
+### 1. A partir da pasta raiz do projeto rode o comando:
+- mvn test
+
