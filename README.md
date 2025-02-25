@@ -52,8 +52,6 @@ Desenvolvi todas as rotas conforme solicitado, cumprindo os requisitos do projet
 
 ## Endpoints
 
-### Endpoints Resumidos
-
 - **Criar Pessoa**  
   - **Método:** `POST`  
   - **URL:** `/person`
@@ -127,7 +125,7 @@ git clone https://github.com/Josuel-Junior/register-people-and-address.git
 ### 2. Inicie o banco de dados a partir da pasta raiz do projeto com o comando:
 - docker compose up
 
-### 3. Iniciar projeto com o comando:
+### 3. Inicie o projeto com o comando:
 - mvn spring-boot:run
 
 ## Rodar testes
