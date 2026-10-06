@@ -3,7 +3,7 @@
 
 Objetivo do Projeto
 
-Desenvolver uma API RESTful para gerenciamento de pessoas, permitindo a realização completa de operações CRUD e a associação de um endereço a cada pessoa.
+Desenvolver uma API RESTful para gerenciamento e cadastro de pessoas, permitindo a realização de operações CRUD e a associação de um endereço a cada pessoa.
 
 Requisitos Funcionais:
 
